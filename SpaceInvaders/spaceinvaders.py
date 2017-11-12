@@ -656,6 +656,7 @@ class SpaceInvaders(object):
                 # Reset enemy starting position
                 self.enemyPositionStart = self.enemyPositionDefault
                 self.create_game_over(currentTime)
+                print self.score
                 return self.score
 
 
