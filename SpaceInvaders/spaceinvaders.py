@@ -414,25 +414,25 @@ class SpaceInvaders(object):
         X = []
         X.append(self.player.rect.x)
         activation = self.individual.predict(X)
-        for e in event.get():
-            if e.type == QUIT:
-                sys.exit()
+        #for e in event.get():
+        #    if e.type == QUIT:
+        #        sys.exit()
             #if e.type == KEYDOWN:
                 #if e.key == K_SPACE:
-            if activation[2] == True:
-                if len(self.bullets) == 0 and self.shipAlive:
-                    if self.score < 1000:
-                        bullet = Bullet(self.player.rect.x+23, self.player.rect.y+5, -1, 15, "laser", "center")
-                        self.bullets.add(bullet)
-                        self.allSprites.add(self.bullets)
-                        self.sounds["shoot"].play()
-                    else:
-                        leftbullet = Bullet(self.player.rect.x+8, self.player.rect.y+5, -1, 15, "laser", "left")
-                        rightbullet = Bullet(self.player.rect.x+38, self.player.rect.y+5, -1, 15, "laser", "right")
-                        self.bullets.add(leftbullet)
-                        self.bullets.add(rightbullet)
-                        self.allSprites.add(self.bullets)
-                        self.sounds["shoot2"].play()
+        if activation[2] == True:
+            if len(self.bullets) == 0 and self.shipAlive:
+                if self.score < 1000:
+                    bullet = Bullet(self.player.rect.x+23, self.player.rect.y+5, -1, 15, "laser", "center")
+                    self.bullets.add(bullet)
+                    self.allSprites.add(self.bullets)
+                    self.sounds["shoot"].play()
+                else:
+                    leftbullet = Bullet(self.player.rect.x+8, self.player.rect.y+5, -1, 15, "laser", "left")
+                    rightbullet = Bullet(self.player.rect.x+38, self.player.rect.y+5, -1, 15, "laser", "right")
+                    self.bullets.add(leftbullet)
+                    self.bullets.add(rightbullet)
+                    self.allSprites.add(self.bullets)
+                    self.sounds["shoot2"].play()
 
     def make_enemies(self):
         enemies = sprite.Group()
