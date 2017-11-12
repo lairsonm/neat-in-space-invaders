@@ -35,8 +35,9 @@ class Ship(sprite.Sprite):
         X = []
         X.append(self.rect.x)
         activation = self.individual.predict(X)
-        print activation[0]
-        print activation[1]
+        #print "esquerda" + str(activation[0])
+        #print "direita" + str(activation[1])
+        #print "tiro" + str(activation[2])
         if activation[0] == True  and self.rect.x > 10:
             self.rect.x -= self.speed
         if activation[1] == True and self.rect.x < 740:
