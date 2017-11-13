@@ -573,6 +573,9 @@ class SpaceInvaders(object):
         sprite.groupcollide(self.bullets, self.allBlockers, True, True)
         sprite.groupcollide(self.enemyBullets, self.allBlockers, True, True)
         sprite.groupcollide(self.enemies, self.allBlockers, False, True)
+        for enemy in self.enemies:
+            if not enemy.rect.y > 1:
+                print("error")
 
     def create_new_ship(self, createShip, currentTime):
         if createShip and (currentTime - self.shipTimer > 900):

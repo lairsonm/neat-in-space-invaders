@@ -1,2 +1,0 @@
-from neat import genes
-
