@@ -196,8 +196,8 @@ class Mystery(sprite.Sprite):
         self.moveTime = 25000
         self.direction = 1
         self.timer = time.get_ticks()
-        self.mysteryEntered = mixer.Sound('sounds/mysteryentered.wav')
-        self.mysteryEntered.set_volume(0.3)
+        #self.mysteryEntered = mixer.Sound('sounds/mysteryentered.wav')
+        #self.mysteryEntered.set_volume(0.3)
         self.playSound = True
 
     def update(self, keys, currentTime, *args):
@@ -425,14 +425,14 @@ class SpaceInvaders(object):
                     bullet = Bullet(self.player.rect.x+23, self.player.rect.y+5, -1, 15, "laser", "center")
                     self.bullets.add(bullet)
                     self.allSprites.add(self.bullets)
-                    self.sounds["shoot"].play()
+                    #self.sounds["shoot"].play()
                 else:
                     leftbullet = Bullet(self.player.rect.x+8, self.player.rect.y+5, -1, 15, "laser", "left")
                     rightbullet = Bullet(self.player.rect.x+38, self.player.rect.y+5, -1, 15, "laser", "right")
                     self.bullets.add(leftbullet)
                     self.bullets.add(rightbullet)
                     self.allSprites.add(self.bullets)
-                    self.sounds["shoot2"].play()
+                    #self.sounds["shoot2"].play()
 
     def make_enemies(self):
         enemies = sprite.Group()
@@ -523,7 +523,7 @@ class SpaceInvaders(object):
         if enemiesdict:
             for value in enemiesdict.values():
                 for currentSprite in value:
-                    self.sounds["invaderkilled"].play()
+                    #self.sounds["invaderkilled"].play()
                     self.killedRow = currentSprite.row
                     self.killedColumn = currentSprite.column
                     score = self.calculate_score(currentSprite.row)
@@ -539,7 +539,7 @@ class SpaceInvaders(object):
             for value in mysterydict.values():
                 for currentSprite in value:
                     currentSprite.mysteryEntered.stop()
-                    self.sounds["mysterykilled"].play()
+                    #self.sounds["mysterykilled"].play()
                     score = self.calculate_score(currentSprite.row)
                     explosion = Explosion(currentSprite.rect.x, currentSprite.rect.y, currentSprite.row, False, True, score)
                     self.explosionsGroup.add(explosion)
@@ -557,7 +557,7 @@ class SpaceInvaders(object):
                     if self.lives == 0:
                         self.gameOver = True
                         self.startGame = False
-                    self.sounds["shipexplosion"].play()
+                    #self.sounds["shipexplosion"].play()
                     explosion = Explosion(playerShip.rect.x, playerShip.rect.y, 0, True, False, 0)
                     self.explosionsGroup.add(explosion)
                     self.allSprites.remove(playerShip)
