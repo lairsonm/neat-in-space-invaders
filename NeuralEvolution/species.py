@@ -51,7 +51,7 @@ class Species(object):
                 genome.set_generation(self.generation_number)
 
 
-    # This function holds the interface and interaction with FlapPyBird
+    # This function holds the interface and interaction with SpaceInvaders
     def generate_fitness(self):
         species_score = 0
         

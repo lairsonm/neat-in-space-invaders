@@ -1,7 +1,7 @@
 # Configurations for NEAT
 
 
-INPUT_NEURONS = 1
+INPUT_NEURONS = 3
 OUTPUT_NEURONS = 3
 POPULATION = 10
 # True = population is const across all species and changing
