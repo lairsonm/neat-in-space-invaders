@@ -60,7 +60,7 @@ class Species(object):
         self.pretty_print_gen_id(self.generation_number)
         file = open("testfile.txt", "a")
         file.write("\n" + "Species: " + str(self.species_id) +
-                   "Generation Number: " + str(self.generation_number) + "\n" + "-----------------------" + "\n \n")
+                   " Generation Number: " + str(self.generation_number) + "\n" + "-----------------------" + "\n \n")
         file.close()
 
         neural_networks = self.genomes.values()
