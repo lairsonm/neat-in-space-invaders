@@ -4,6 +4,7 @@ from NeuralEvolution.network import Network
 import NeuralEvolution.config as config
 import SpaceInvaders.spaceinvaders as spcinv
 import os
+import datetime
 os.chdir(os.getcwd() + '/SpaceInvaders/')
 
 
@@ -57,13 +58,28 @@ class Species(object):
         
         self.pretty_print_s_id(self.species_id)
         self.pretty_print_gen_id(self.generation_number)
+        file = open("testfile.txt", "a")
+        file.write("\n" + "Species: " + str(self.species_id) +
+                   "Generation Number: " + str(self.generation_number) + "\n" + "-----------------------" + "\n \n")
+        file.close()
 
         neural_networks = self.genomes.values()
         results = [];
         # Run the game with each organism in the current generation
         for ship in neural_networks:
+            file = open("testfile.txt", "a")
+            file.write("Iniciando jogo: " + str(datetime.datetime.now()) + "\n")
+            file.write("individuo: " + str(neural_networks.index(ship)) + "\n")
+            file.write("geracao: " + str(self.generation_number) + "\n")
+            file.write("species: " + str(self.species_id) + "\n")
+            file.close()
             app = spcinv.SpaceInvaders(ship)
-            results.append([int(app.main()), int(neural_networks.index(ship))])
+            result = int(app.main())
+            results.append([result, int(neural_networks.index(ship))])
+            file = open("testfile.txt", "a")
+            file.write("Tempo final: " + str(datetime.datetime.now()) + "\n" + "Resultado: " + str(result) +
+                       "\n" + "-----------------------" + "\n")
+            file.close()
 
         for result in results:
 

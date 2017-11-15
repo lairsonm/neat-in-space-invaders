@@ -22,6 +22,7 @@ IMG_NAMES 	= ["ship", "ship", "mystery", "enemy1_1", "enemy1_2", "enemy2_1", "en
 IMAGES 		= {name: image.load("SpaceInvaders/images/{}.png".format(name)).convert_alpha()
                 for name in IMG_NAMES}
 
+
 class Ship(sprite.Sprite):
     def __init__(self, individual):
         sprite.Sprite.__init__(self)
@@ -83,6 +84,8 @@ class Enemy(sprite.Sprite):
         self.leftMoves = 30
         self.moveNumber = 0
         self.moveTime = 600
+        self.outOfBounds = False
+        self.whereY = 0
         self.firstTime = True
         self.movedY = False
         self.columns = [False] * 10
@@ -101,6 +104,7 @@ class Enemy(sprite.Sprite):
                 self.direction *= -1
                 self.moveNumber = 0
                 self.rect.y += 35
+                self.whereY += 35
                 self.movedY = True
                 if self.addRightMoves:
                     self.rightMoves += self.numOfRightMoves
@@ -112,6 +116,7 @@ class Enemy(sprite.Sprite):
                 self.direction *= -1
                 self.moveNumber = 0
                 self.rect.y += 35
+                self.whereY += 35
                 self.movedY = True
                 if self.addLeftMoves:
                     self.leftMoves += self.numOfLeftMoves
@@ -122,6 +127,11 @@ class Enemy(sprite.Sprite):
             if self.moveNumber < self.leftMoves and self.direction == -1 and not self.movedY:
                 self.rect.x -= 10
                 self.moveNumber += 1
+            #check if out of bounds
+            if self.whereY > 350:
+                self.outOfBounds = True
+
+
 
             self.index += 1
             if self.index >= len(self.images):
@@ -420,10 +430,11 @@ class SpaceInvaders(object):
         inputs.append(closeShotx)
         inputs.append(closeShoty)
         activation = self.individual.predict(inputs)
-        if activation[0] == True  and self.player.rect.x > 10:
+        if activation[0] == True  and self.player.rect.x > 50:
             self.player.rect.x -= 5
-        if activation[1] == True and self.player.rect.x < 740:
+        if activation[1] == True and self.player.rect.x < 700:
             self.player.rect.x += 5
+
         if activation[2] == True:
             if len(self.bullets) == 0 and self.shipAlive:
                 if self.score < 1000:
@@ -545,6 +556,11 @@ class SpaceInvaders(object):
                     self.enemyBullets.remove(currentSprite)
                     self.allSprites.remove(currentSprite)
 
+        for enemy in self.enemies:
+            if enemy.outOfBounds == True:
+                self.startGame = False
+                self.gameOver = True
+
         enemiesdict = sprite.groupcollide(self.bullets, self.enemies, True, False)
         if enemiesdict:
             for value in enemiesdict.values():
@@ -600,9 +616,9 @@ class SpaceInvaders(object):
         sprite.groupcollide(self.bullets, self.allBlockers, True, True)
         sprite.groupcollide(self.enemyBullets, self.allBlockers, True, True)
         sprite.groupcollide(self.enemies, self.allBlockers, False, True)
-        if self.timer > 600000:
-            self.gameOver = True
-            self.startGame = False
+        #if self.timer > 600000:
+        #    self.gameOver = True
+        #    self.startGame = False
 
     def create_new_ship(self, createShip, currentTime):
         if createShip and (currentTime - self.shipTimer > 900):
@@ -689,6 +705,7 @@ class SpaceInvaders(object):
                 self.enemyPositionStart = self.enemyPositionDefault
                 self.create_game_over(currentTime)
                 print self.score
+
                 return self.score
 
 

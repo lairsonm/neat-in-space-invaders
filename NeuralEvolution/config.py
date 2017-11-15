@@ -3,7 +3,7 @@
 
 INPUT_NEURONS = 3
 OUTPUT_NEURONS = 3
-POPULATION = 10
+POPULATION = 30
 # True = population is const across all species and changing
 # False = genomes may still move species, but each new species gets POPULATION starting genomes
 DYNAMIC_POPULATION = False
