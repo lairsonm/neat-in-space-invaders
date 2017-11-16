@@ -324,6 +324,7 @@ class SpaceInvaders(object):
         self.score = 0
         self.crash_info = []
         self.individual = individual
+        self.timeEnemies = time.get_ticks()
 
         #"""  CREATE PLAYER """
         #self.movementInfo = tools.load_and_initialize()
@@ -360,6 +361,7 @@ class SpaceInvaders(object):
         self.noteTimer = time.get_ticks()
         self.shipTimer = time.get_ticks()
         self.score = score
+        self.timeEnemies = time.get_ticks()
         self.lives = 0
         self.create_audio()
         self.create_text()
@@ -517,6 +519,8 @@ class SpaceInvaders(object):
 
         score = scores[row]
         self.score += score
+        self.timeEnemies = time.get_ticks()
+
         return score
 
     def create_main_menu(self):
@@ -560,6 +564,12 @@ class SpaceInvaders(object):
             if enemy.outOfBounds == True:
                 self.startGame = False
                 self.gameOver = True
+
+        #if doesnt score after 10 sec, reset
+        if time.get_ticks() - self.timeEnemies > 10000:
+            self.startGame = False
+            self.gameOver = True
+
 
         enemiesdict = sprite.groupcollide(self.bullets, self.enemies, True, False)
         if enemiesdict:
