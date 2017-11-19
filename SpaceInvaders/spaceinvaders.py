@@ -326,18 +326,6 @@ class SpaceInvaders(object):
         self.individual = individual
         self.timeEnemies = time.get_ticks()
 
-        #"""  CREATE PLAYER """
-        #self.movementInfo = tools.load_and_initialize()
-            #self.ships = [Bird(self.movementInfo, neural_network, i) for i, neural_network in enumerate(neural_networks)]
-        #""" CREATE PIPES """
-        #if REPEATING_PIPES:
-        #    self.pipes = Pipes(PIPE_PATTERN)
-        #else:
-        #    self.pipes = Pipes()
-
-        #""" CREATE BASE """
-        #self.base = Base(self.movementInfo['basex'])
-
 
 
 
@@ -426,11 +414,14 @@ class SpaceInvaders(object):
         closeShotx = 0
         inputs.append(self.player.rect.x)
         for enemyBullet in self.enemyBullets:
-            if closeShoty == 0 or closeShoty > enemyBullet.rect.y:
+            if enemyBullet.rect.y > 500:
                 closeShoty = enemyBullet.rect.y
                 closeShotx = enemyBullet.rect.x
         inputs.append(closeShotx)
         inputs.append(closeShoty)
+        if closeShoty == 540:
+            if abs(closeShotx - self.player.rect.x) < 50 or abs(self.player.rect.x - closeShotx) < 50:
+                self.calculate_score(6)
         activation = self.individual.predict(inputs)
         if activation[0] == True  and self.player.rect.x > 50:
             self.player.rect.x -= 5
@@ -494,7 +485,6 @@ class SpaceInvaders(object):
         columnList = list(columnSet)
         shuffle(columnList)
         column = columnList[0]
-        enemyList = []
         rowList = []
 
         for enemy in self.enemies:
@@ -514,8 +504,8 @@ class SpaceInvaders(object):
                   2: 20,
                   3: 10,
                   4: 10,
-                  5: choice([50, 100, 150, 300])
-                 }
+                  5: choice([50, 100, 150, 300]),
+                  6: 15}
 
         score = scores[row]
         self.score += score
@@ -585,23 +575,7 @@ class SpaceInvaders(object):
                     self.enemies.remove(currentSprite)
                     self.gameTimer = time.get_ticks()
                     break
-        '''
-        mysterydict = sprite.groupcollide(self.bullets, self.mysteryGroup, True, True)
-        if mysterydict:
-            for value in mysterydict.values():
-                for currentSprite in value:
-                    #currentSprite.mysteryEntered.stop()
-                    #self.sounds["mysterykilled"].play()
-                    score = self.calculate_score(currentSprite.row)
-                    explosion = Explosion(currentSprite.rect.x, currentSprite.rect.y, currentSprite.row, False, True, score)
-                    self.explosionsGroup.add(explosion)
-                    self.allSprites.remove(currentSprite)
-                    self.mysteryGroup.remove(currentSprite)
-                    newShip = Mystery()
-                    self.allSprites.add(newShip)
-                    self.mysteryGroup.add(newShip)
-                    break
-        '''
+
 #TIRO INIMIGO ATINGIU O JOGADOR
         bulletsdict = sprite.groupcollide(self.enemyBullets, self.playerGroup, True, False)
         if bulletsdict:
@@ -626,9 +600,7 @@ class SpaceInvaders(object):
         sprite.groupcollide(self.bullets, self.allBlockers, True, True)
         sprite.groupcollide(self.enemyBullets, self.allBlockers, True, True)
         sprite.groupcollide(self.enemies, self.allBlockers, False, True)
-        #if self.timer > 600000:
-        #    self.gameOver = True
-        #    self.startGame = False
+
 
     def create_new_ship(self, createShip, currentTime):
         if createShip and (currentTime - self.shipTimer > 900):
@@ -722,169 +694,6 @@ class SpaceInvaders(object):
 
             display.update()
             self.clock.tick(60)
-
-
-                
-'''               
-class SpaceInvadersApp(object):
-
-    def __init__(self, neural_networks):
-        global SCREEN, FPSCLOCK
-
-        pygame.init()
-        FPSCLOCK = pygame.time.Clock()
-        SCREEN = pygame.display.set_mode((512, 512))
-        pygame.display.set_caption('SpaceInvaders')
-
-        self.score = 0
-        self.crash_info = []
-        self.num_organisms = len(neural_networks)
-
-        """  CREATE PLAYER """
-        self.movementInfo = tools.load_and_initialize()
-        self.ships = [Bird(self.movementInfo, neural_network, i) for i, neural_network in enumerate(neural_networks)]
-        """ CREATE PIPES """
-        if REPEATING_PIPES:
-            self.pipes = Pipes(PIPE_PATTERN)
-        else:
-            self.pipes = Pipes()
-
-        """ CREATE BASE """
-        self.base = Base(self.movementInfo['basex'])
-
-
-    def play(self):
-
-        while True:
-            for event in pygame.event.get():
-                if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-                    pygame.quit()
-                    sys.exit()
-
-            if self.on_loop():
-                return
-            else:
-                self.on_render()
-
-
-
-    def on_loop(self):
-
-        # =========----==========================================================
-        """ CHECK FLAP """              # NEURAL NET WILL INTERFACE HERE
-        # =========----==========================================================
-        for bird in self.ships:
-            bird.flap_decision(self.pipes)
-        # =========----==========================================================
-
-
-
-        # =========----==========================================================
-        """ CHECK CRASH """
-        # =========----==========================================================
-        for index, ship in enumerate(self.ships):
-            if bird.check_crash(self.totalPoints):
-                self.crash_info.append(bird.crashInfo)
-                del self.birds[index]
-                if len(self.birds) == 0:
-                    return True
-        # =========----==========================================================
-
-
-        # =========----==========================================================
-        """ CHECK FOR SCORE """
-        # =========----==========================================================
-        break_one = break_two = False
-        for bird in self.birds:
-            playerMidPos = bird.x + IMAGES['player'][0].get_width() / 2
-            for pipe in self.pipes.upper:
-                pipeMidPos = pipe['x'] + IMAGES['pipe'][0].get_width() / 2
-                if pipeMidPos <= playerMidPos < pipeMidPos + 4:
-                    self.score += 1
-                    break_one = break_two = True
-                    SOUNDS['point'].play() if SOUND_ON else None
-                if break_one:
-                    break
-            if break_two:
-                break
-
-        # =========----==========================================================
-
-
-        # =========----==========================================================
-        """ MOVE BASE """
-        # =========----==========================================================
-        self.base.move(self.birds)
-        # =========----==========================================================
-
-
-        # =========----==========================================================
-        """ MOVE PLAYER """
-        # =========----==========================================================
-        for bird in self.birds:
-            bird.move()
-        # =========----==========================================================
-
-
-        # =========----==========================================================
-        """ MOVE PIPES """
-        # =========----==========================================================
-        self.pipes.move(self.birds)
-        # =========----==========================================================
-        return False
-
-
-    def on_render(self):
-        # =========----==========================================================
-        """ DRAW BACKGROUND """
-        # =========----==========================================================
-        SCREEN.blit(IMAGES['background'], (0,0))
-        # =========----==========================================================
-
-
-        # =========----==========================================================
-        """ DRAW PIPES """
-        # =========----==========================================================
-        self.pipes.draw(SCREEN)
-        # =========----==========================================================
-
-
-        # =========----==========================================================
-        """ DRAW BASE """
-        # =========----==========================================================
-        SCREEN.blit(IMAGES['base'], (self.base.basex, BASEY))
-        # =========----==========================================================
-
-
-        # =========----==========================================================
-        """ DRAW STATS """
-        # =========----==========================================================
-        disp_tools.displayStat(SCREEN, self.birds[0].distance*-1, text="distance")
-        disp_tools.displayStat(SCREEN, self.score, text="scores")
-        disp_tools.displayStat(SCREEN, self.num_organisms, text="organism")
-        for bird in self.birds:
-            # disp_tools.displayStat(SCREEN, bird.energy_used, text="energy")
-            # disp_tools.displayStat(SCREEN, neural_network.topology, text="topology")
-            disp_tools.displayStat(SCREEN, bird.neural_network.species_number, text="species")
-            disp_tools.displayStat(SCREEN, bird.neural_network.generation_number, text="generation")
-            SCREEN.blit(IMAGES['player'][bird.index], (bird.x, bird.y))
-        # =========----==========================================================
-
-
-        # =========----==========================================================
-        """ UPDATE DISPLAY """
-        # =========----==========================================================
-        pygame.display.update()
-        # =========----==========================================================
-
-
-        # =========----==========================================================
-        """ TICK CLOCK """
-        # =========----==========================================================
-        FPSCLOCK.tick(FPS)
-        # =========----==========================================================
-
-'''
 
 if __name__ == '__main__':
     game = SpaceInvaders()
