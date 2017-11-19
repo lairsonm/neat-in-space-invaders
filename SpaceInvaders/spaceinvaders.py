@@ -414,14 +414,16 @@ class SpaceInvaders(object):
         closeShotx = 0
         inputs.append(self.player.rect.x)
         for enemyBullet in self.enemyBullets:
-            if enemyBullet.rect.y > 500:
+            if enemyBullet.rect.y > 470:
                 closeShoty = enemyBullet.rect.y
                 closeShotx = enemyBullet.rect.x
         inputs.append(closeShotx)
         inputs.append(closeShoty)
-        if closeShoty == 540:
-            if abs(closeShotx - self.player.rect.x) < 50 or abs(self.player.rect.x - closeShotx) < 50:
+        if closeShoty == 530:
+            if abs(self.player.rect.x - closeShotx) < 50 or abs(closeShotx - self.player.rect.x) < 85:
                 self.calculate_score(6)
+        enemyNumber = len(self.enemies)
+        inputs.append(enemyNumber)
         activation = self.individual.predict(inputs)
         if activation[0] == True  and self.player.rect.x > 50:
             self.player.rect.x -= 5
@@ -556,7 +558,7 @@ class SpaceInvaders(object):
                 self.gameOver = True
 
         #if doesnt score after 10 sec, reset
-        if time.get_ticks() - self.timeEnemies > 10000:
+        if time.get_ticks() - self.timeEnemies > 22000:
             self.startGame = False
             self.gameOver = True
 

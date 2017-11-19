@@ -1,9 +1,9 @@
 # Configurations for NEAT
 
 
-INPUT_NEURONS = 3
+INPUT_NEURONS = 4
 OUTPUT_NEURONS = 3
-POPULATION = 30
+POPULATION = 50
 # True = population is const across all species and changing
 # False = genomes may still move species, but each new species gets POPULATION starting genomes
 DYNAMIC_POPULATION = False
