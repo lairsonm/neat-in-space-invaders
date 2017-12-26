@@ -12,7 +12,7 @@ About
 -----
 This is an NEAT project in Space Invaders.
 
-The Space Invaders original source code can be found [here] (https://github.com/leerob/Space_Invaders) : 
+The Space Invaders original source code can be found [here](https://github.com/leerob/Space_Invaders) : 
 
 The goal of the Neural Network is to get as much score as possible in the game. 
 The score can increase when the ship shoots an enemy or if it dodges a bullet that is near him. 
@@ -25,7 +25,6 @@ How To Start the Neural Evolution
  ``` bash
 python space_driver.py
  ```
- **Note:** If you're using Python 3, replace the command "python" with "python3"
 
 
 Contact
@@ -34,5 +33,5 @@ Thanks for checking out our NEAT application, if you have anything to ask, you c
 
 - v1.0 released 30/11/2017
 - MIT License
-- Created by Lairson Melo Filho and Onildo João Costa in UNIFACS - Universidade Salvador.
-- lairsonm@gmail.com
+- Created by (Lairson Melo Filho)[https://github.com/lairsonm] and (Onildo João Costa)[https://github.com/onildojoao] in UNIFACS - Universidade Salvador.
+- lairsonm@gmail.com // onildojoaocosta@gmail.com
