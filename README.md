@@ -1,4 +1,4 @@
-Space Invaders
+NEAT in Space Invaders
 ===========
 
 [![Language](https://img.shields.io/badge/language-python-blue.svg?style=flat
