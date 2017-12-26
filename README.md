@@ -33,5 +33,5 @@ Thanks for checking out our NEAT application, if you have anything to ask, you c
 
 - v1.0 released 30/11/2017
 - MIT License
-- Created by (Lairson Melo Filho)[https://github.com/lairsonm] and (Onildo João Costa)[https://github.com/onildojoao] in UNIFACS - Universidade Salvador.
+- Created by [Lairson Melo Filho](https://github.com/lairsonm) and [Onildo João Costa](https://github.com/onildojoao) in UNIFACS - Universidade Salvador.
 - lairsonm@gmail.com // onildojoaocosta@gmail.com
