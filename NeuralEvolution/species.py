@@ -82,7 +82,7 @@ class Species(object):
             neural_networks[result[1]].set_fitness(fitness_score)
             species_score += fitness_score
 
-        print "\nSpecies Score:", species_score
+        print "\n Score:", species_score
 
         return species_score
 
