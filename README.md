@@ -20,9 +20,14 @@ The score can increase when the ship shoots an enemy or if it dodges a bullet th
 
 How To Start the Neural Evolution
 ----
+
    Python: 2.7.14
    Pygame: 1.9.3
- - If you have the correct version of Python and Pygame installed, you can run the program in the command prompt / terminal.
+   Numpy: 1.13.3
+   Scipy: 0.16.1
+   Sklearn: 0.19.0
+   
+ - If you have the correct version of all that installed, you can run the program in the command prompt / terminal.
  ``` bash
 python space_driver.py
  ```
